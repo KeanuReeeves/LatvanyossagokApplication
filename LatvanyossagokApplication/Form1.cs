@@ -36,6 +36,7 @@ namespace LatvanyossagokApplication
                 this.Close();
             }
             tablaCreate();
+            adatbetoltes();
         }
         private void tablaCreate()
         {
@@ -61,33 +62,106 @@ namespace LatvanyossagokApplication
             comm = this.conn.CreateCommand();
             comm.CommandText = sql;
             comm.ExecuteNonQuery();
+
+        }
+        private void adatbetoltes()
+        {
+            string sql = @"SELECT `id`, `nev`, `lakossag` 
+                           FROM `varosok`";
+            var comm = conn.CreateCommand();
+            comm.CommandText = sql;
+            using (var reader = comm.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader.GetString(0));
+                    string nev = reader.GetString(1);
+                    int lakossag = Convert.ToInt32(reader.GetString(2));
+                    Varosok v = new Varosok(id, nev, lakossag);
+                    VarosokListBox.Items.Add(v);
+                }
+            }
         }
 
         private void VarosSubmit_Click(object sender, EventArgs e)
         {
             string nev = nevtb.Text;
             var comm = this.conn.CreateCommand();
-            string sql = @"SELECT count(*)
+            string sql = @"SELECT count(id) as db
                          FROM varosok
-                         WHERE @nev=varosok.nev";
-            comm.Parameters.AddWithValue("@nev",nev);
+                         WHERE @nev=nev";
+            comm.Parameters.AddWithValue("@nev", nev);
             comm.CommandText = sql;
-            int count;
+            int count = 0;
             using (var reader = comm.ExecuteReader())
             {
-                count = Convert.ToInt32(reader.ToString());
+                while (reader.Read())
+                {
+                    count = reader.GetInt32("db");
+                }
+
             }
             if (count > 0)
             {
-
+                MessageBox.Show("A név már létezik");
             }
             else
             {
-                sql = @"Insert into varosok
+                sql = @"Insert into varosok(nev,lakossag)
                         Values (@nev,@lakossag)";
                 comm.CommandText = sql;
-                comm.Parameters.AddWithValue("@lakossag", numLakossag);
-                VarosSubmit.Enabled = true;
+
+                comm.Parameters.AddWithValue("@lakossag", numLakossag.Value);
+                comm.ExecuteNonQuery();
+                sql = @"SELECT id
+                        FROM varosok
+                        WHERE nev=@nev";
+                comm.CommandText = sql;
+                int id=0;
+                using (var reader = comm.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        id = Convert.ToInt32(reader.GetString(0));
+                    }
+
+                }
+                VarosokListBox.Items.Add(new Varosok(id,nev,Convert.ToInt32(numLakossag.Value)));
+            }
+           
+            
+        }
+
+        private void torles()
+        {
+            Varosok v = (Varosok)VarosokListBox.SelectedItem;
+            if (VarosokListBox.SelectedIndex>-1)
+            {
+
+            }
+        }
+
+        private void LatvanyossagSubmit_Click(object sender, EventArgs e)
+        {
+            string nev = LatNevText.Text;
+            string leiras = LeirasText.Text;
+            int ar = Convert.ToInt32(numAr.Value);
+            Varosok v = (Varosok)VarosokListBox.SelectedItem;
+            if (nev == "" && leiras == "" && VarosokListBox.SelectedIndex < 0)
+            {
+                MessageBox.Show("Hiányzó adat");
+            }
+            else
+            {
+                string sql = @"INSERT INTO latvanyossagok(nev,leiras,ar,varos_id)
+                               VALUES (@nev,@leiras,@ar,@varos_id)";
+                var comm = conn.CreateCommand();
+                comm.CommandText = sql;
+                comm.Parameters.AddWithValue("@nev", nev);
+                comm.Parameters.AddWithValue("@leiras", leiras);
+                comm.Parameters.AddWithValue("@ar", ar);
+                comm.Parameters.AddWithValue("@varos_id", v.Id);
+                comm.ExecuteNonQuery();
             }
         }
     }
