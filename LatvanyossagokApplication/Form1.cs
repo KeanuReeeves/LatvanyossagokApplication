@@ -186,6 +186,22 @@ namespace LatvanyossagokApplication
             }
         }
 
+        private void latvTorles()
+        {
+            Latvanyossag lv = (Latvanyossag)LatvanyossagList.SelectedItem;
+            if (LatvanyossagList.SelectedIndex>-1)
+            {
+                string sql = @"DELETE FROM latvanyossagok 
+                                       WHERE id=@id";
+                var comm = conn.CreateCommand();
+                comm.CommandText = sql;
+                comm.Parameters.AddWithValue("@id", lv.Id);
+                comm.ExecuteNonQuery();
+                LatvanyossagList.Items.RemoveAt(LatvanyossagList.SelectedIndex);
+                LatvanyossagList.SelectedIndex = -1;
+            }
+        }
+
         private void LatvanyossagSubmit_Click(object sender, EventArgs e)
         {
             string nev = LatNevText.Text;
@@ -227,7 +243,82 @@ namespace LatvanyossagokApplication
 
         private void btnTorol_Click(object sender, EventArgs e)
         {
-            varosTorles();
+            if (VarosokListBox.SelectedIndex>-1||LatvanyossagList.SelectedIndex>-1)
+            {
+                varosTorles();
+                latvTorles();
+            }
+            else
+            {
+                MessageBox.Show("Nincs kijelölve semmi");
+            }
+            
         }
+
+        private void VarosokListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Varosok v = (Varosok)VarosokListBox.SelectedItem;
+            btnModositV.Visible = true;
+            nevtb.Text = v.Nev;
+            numLakossag.Value = v.Lakossag;
+        }
+
+        
+        private void btnModositV_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnModositL_Click(object sender, EventArgs e)
+        {
+            string nev = LatNevText.Text;
+            string leiras = LeirasText.Text;
+            int ar = Convert.ToInt32(numAr.Value);
+            Varosok v = (Varosok)VarosokListBox.SelectedItem;
+            var comm = this.conn.CreateCommand();
+            comm.Parameters.AddWithValue("@nev", nev);
+            string sql = "";
+            
+            sql = @"SELECT id
+                        FROM latvanyossagok
+                        WHERE nev=@nev";
+            comm.CommandText = sql;
+            int id = 0;
+            using (var reader = comm.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    id = Convert.ToInt32(reader.GetString(0));
+                }
+
+            }
+            sql = @"UPDATE latvanyossagok 
+                    SET nev=@nev,leiras=@leiras,ar=@ar,varos_id=@varosid
+                    WHERE id=@id";
+            comm.CommandText = sql;
+            comm.Parameters.AddWithValue("@id", id);
+           
+            comm.Parameters.AddWithValue("@leiras", leiras);
+            comm.Parameters.AddWithValue("@ar", ar);
+            comm.Parameters.AddWithValue("@varosid", v.Id);
+            comm.ExecuteNonQuery();
+            LatvanyossagList.Items.RemoveAt(LatvanyossagList.SelectedIndex);
+            LatvanyossagList.Items.Add(new Latvanyossag(id, nev, leiras, ar, v.Id));
+            LatvanyossagList.SelectedIndex = -1;
+            
+        }
+
+        private void LatvanyossagList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LatvanyossagList.SelectedIndex>-1)
+            {
+                Latvanyossag lv = (Latvanyossag)LatvanyossagList.SelectedItem;
+                btnModositL.Visible = true;
+                LatNevText.Text = lv.Nev;
+                LeirasText.Text = lv.Leiras;
+                numAr.Value = lv.Ar;
+                VarosokListBox.SelectedIndex = 0;
+            }
+        }  
     }
 }

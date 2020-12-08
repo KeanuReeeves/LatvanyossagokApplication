@@ -46,6 +46,8 @@
             this.LatvanyossagSubmit = new System.Windows.Forms.Button();
             this.LatvanyossagList = new System.Windows.Forms.ListBox();
             this.btnTorol = new System.Windows.Forms.Button();
+            this.btnModositV = new System.Windows.Forms.Button();
+            this.btnModositL = new System.Windows.Forms.Button();
             this.Citysubmit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLakossag)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -54,6 +56,7 @@
             // 
             // Citysubmit
             // 
+            this.Citysubmit.Controls.Add(this.btnModositV);
             this.Citysubmit.Controls.Add(this.VarosSubmit);
             this.Citysubmit.Controls.Add(this.numLakossag);
             this.Citysubmit.Controls.Add(this.label2);
@@ -105,7 +108,7 @@
             // 
             // VarosSubmit
             // 
-            this.VarosSubmit.Location = new System.Drawing.Point(68, 72);
+            this.VarosSubmit.Location = new System.Drawing.Point(21, 72);
             this.VarosSubmit.Name = "VarosSubmit";
             this.VarosSubmit.Size = new System.Drawing.Size(75, 23);
             this.VarosSubmit.TabIndex = 5;
@@ -120,9 +123,11 @@
             this.VarosokListBox.Name = "VarosokListBox";
             this.VarosokListBox.Size = new System.Drawing.Size(174, 69);
             this.VarosokListBox.TabIndex = 1;
+            this.VarosokListBox.SelectedIndexChanged += new System.EventHandler(this.VarosokListBox_SelectedIndexChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnModositL);
             this.groupBox1.Controls.Add(this.LatvanyossagSubmit);
             this.groupBox1.Controls.Add(this.numAr);
             this.groupBox1.Controls.Add(this.VarosokListBox);
@@ -202,7 +207,7 @@
             // 
             // LatvanyossagSubmit
             // 
-            this.LatvanyossagSubmit.Location = new System.Drawing.Point(68, 174);
+            this.LatvanyossagSubmit.Location = new System.Drawing.Point(21, 174);
             this.LatvanyossagSubmit.Name = "LatvanyossagSubmit";
             this.LatvanyossagSubmit.Size = new System.Drawing.Size(75, 23);
             this.LatvanyossagSubmit.TabIndex = 7;
@@ -217,6 +222,7 @@
             this.LatvanyossagList.Name = "LatvanyossagList";
             this.LatvanyossagList.Size = new System.Drawing.Size(276, 225);
             this.LatvanyossagList.TabIndex = 3;
+            this.LatvanyossagList.SelectedIndexChanged += new System.EventHandler(this.LatvanyossagList_SelectedIndexChanged);
             // 
             // btnTorol
             // 
@@ -227,6 +233,28 @@
             this.btnTorol.Text = "Töröl";
             this.btnTorol.UseVisualStyleBackColor = true;
             this.btnTorol.Click += new System.EventHandler(this.btnTorol_Click);
+            // 
+            // btnModositV
+            // 
+            this.btnModositV.Location = new System.Drawing.Point(103, 72);
+            this.btnModositV.Name = "btnModositV";
+            this.btnModositV.Size = new System.Drawing.Size(75, 23);
+            this.btnModositV.TabIndex = 6;
+            this.btnModositV.Text = "Módosít";
+            this.btnModositV.UseVisualStyleBackColor = true;
+            this.btnModositV.Visible = false;
+            this.btnModositV.Click += new System.EventHandler(this.btnModositV_Click);
+            // 
+            // btnModositL
+            // 
+            this.btnModositL.Location = new System.Drawing.Point(102, 174);
+            this.btnModositL.Name = "btnModositL";
+            this.btnModositL.Size = new System.Drawing.Size(75, 23);
+            this.btnModositL.TabIndex = 8;
+            this.btnModositL.Text = "Módosít";
+            this.btnModositL.UseVisualStyleBackColor = true;
+            this.btnModositL.Visible = false;
+            this.btnModositL.Click += new System.EventHandler(this.btnModositL_Click);
             // 
             // LakossagNum
             // 
@@ -269,6 +297,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox LatvanyossagList;
         private System.Windows.Forms.Button btnTorol;
+        private System.Windows.Forms.Button btnModositV;
+        private System.Windows.Forms.Button btnModositL;
     }
 }
 
