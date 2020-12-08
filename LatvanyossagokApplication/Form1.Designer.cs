@@ -44,7 +44,7 @@
             this.LeirasText = new System.Windows.Forms.TextBox();
             this.numAr = new System.Windows.Forms.NumericUpDown();
             this.LatvanyossagSubmit = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.LatvanyossagList = new System.Windows.Forms.ListBox();
             this.btnTorol = new System.Windows.Forms.Button();
             this.Citysubmit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLakossag)).BeginInit();
@@ -210,13 +210,13 @@
             this.LatvanyossagSubmit.UseVisualStyleBackColor = true;
             this.LatvanyossagSubmit.Click += new System.EventHandler(this.LatvanyossagSubmit_Click);
             // 
-            // listBox1
+            // LatvanyossagList
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(322, 32);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(276, 225);
-            this.listBox1.TabIndex = 3;
+            this.LatvanyossagList.FormattingEnabled = true;
+            this.LatvanyossagList.Location = new System.Drawing.Point(322, 32);
+            this.LatvanyossagList.Name = "LatvanyossagList";
+            this.LatvanyossagList.Size = new System.Drawing.Size(276, 225);
+            this.LatvanyossagList.TabIndex = 3;
             // 
             // btnTorol
             // 
@@ -226,6 +226,7 @@
             this.btnTorol.TabIndex = 4;
             this.btnTorol.Text = "Töröl";
             this.btnTorol.UseVisualStyleBackColor = true;
+            this.btnTorol.Click += new System.EventHandler(this.btnTorol_Click);
             // 
             // LakossagNum
             // 
@@ -233,7 +234,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnTorol);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.LatvanyossagList);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Citysubmit);
             this.Name = "LakossagNum";
@@ -266,7 +267,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox LatvanyossagList;
         private System.Windows.Forms.Button btnTorol;
     }
 }

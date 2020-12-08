@@ -81,6 +81,23 @@ namespace LatvanyossagokApplication
                     VarosokListBox.Items.Add(v);
                 }
             }
+            sql = @"SELECT * 
+                    FROM latvanyossagok";
+            comm = conn.CreateCommand();
+            comm.CommandText = sql;
+            using (var reader = comm.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader.GetString(0));
+                    string nev = reader.GetString(1);
+                    string leiras =reader.GetString(2);
+                    int ar = Convert.ToInt32(reader.GetString(3));
+                    int varos_id = Convert.ToInt32(reader.GetString(4));
+                    Latvanyossag lv = new Latvanyossag(id, nev, leiras,ar,varos_id);
+                    LatvanyossagList.Items.Add(lv);
+                }
+            }
         }
 
         private void VarosSubmit_Click(object sender, EventArgs e)
@@ -104,6 +121,7 @@ namespace LatvanyossagokApplication
             if (count > 0)
             {
                 MessageBox.Show("A név már létezik");
+                VarosokListBox.SelectedIndex = -1;
             }
             else
             {
@@ -132,12 +150,39 @@ namespace LatvanyossagokApplication
             
         }
 
-        private void torles()
+        private void varosTorles()
         {
             Varosok v = (Varosok)VarosokListBox.SelectedItem;
             if (VarosokListBox.SelectedIndex>-1)
             {
-
+                List<Latvanyossag> lv = new List<Latvanyossag>();
+                foreach (var item in LatvanyossagList.Items)
+                {
+                    lv.Add((Latvanyossag)item);
+                }
+                int db = 0;
+                foreach (var item in lv)
+                {
+                    if (item.Varos_id == v.Id)
+                    {
+                        db++;
+                    }
+                }
+                if (db==0)
+                {
+                    string sql = @"DELETE FROM varosok 
+                                       WHERE id=@id";
+                    var comm = conn.CreateCommand();
+                    comm.CommandText = sql;
+                    comm.Parameters.AddWithValue("@id", v.Id);
+                    comm.ExecuteNonQuery();
+                    VarosokListBox.Items.RemoveAt(VarosokListBox.SelectedIndex);
+                    VarosokListBox.SelectedIndex = -1;
+                }
+                else
+                {
+                    MessageBox.Show("Nem törölhető mert tartozik hozzá látványosság");
+                }
             }
         }
 
@@ -162,7 +207,27 @@ namespace LatvanyossagokApplication
                 comm.Parameters.AddWithValue("@ar", ar);
                 comm.Parameters.AddWithValue("@varos_id", v.Id);
                 comm.ExecuteNonQuery();
+                sql = @"SELECT id
+                        FROM latvanyossagok
+                        WHERE nev=@nev";
+                comm.CommandText = sql;
+                int id = 0;
+                using (var reader = comm.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        id = Convert.ToInt32(reader.GetString(0));
+                    }
+
+                }
+                Latvanyossag lv = new Latvanyossag(id, nev, leiras, ar, v.Id);
+                LatvanyossagList.Items.Add(lv);
             }
+        }
+
+        private void btnTorol_Click(object sender, EventArgs e)
+        {
+            varosTorles();
         }
     }
 }
