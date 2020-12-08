@@ -45,9 +45,9 @@
             this.numAr = new System.Windows.Forms.NumericUpDown();
             this.LatvanyossagSubmit = new System.Windows.Forms.Button();
             this.LatvanyossagList = new System.Windows.Forms.ListBox();
-            this.btnTorol = new System.Windows.Forms.Button();
-            this.btnModositV = new System.Windows.Forms.Button();
+            this.btnTorolL = new System.Windows.Forms.Button();
             this.btnModositL = new System.Windows.Forms.Button();
+            this.btnTorolV = new System.Windows.Forms.Button();
             this.Citysubmit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLakossag)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -56,7 +56,6 @@
             // 
             // Citysubmit
             // 
-            this.Citysubmit.Controls.Add(this.btnModositV);
             this.Citysubmit.Controls.Add(this.VarosSubmit);
             this.Citysubmit.Controls.Add(this.numLakossag);
             this.Citysubmit.Controls.Add(this.label2);
@@ -224,26 +223,15 @@
             this.LatvanyossagList.TabIndex = 3;
             this.LatvanyossagList.SelectedIndexChanged += new System.EventHandler(this.LatvanyossagList_SelectedIndexChanged);
             // 
-            // btnTorol
+            // btnTorolL
             // 
-            this.btnTorol.Location = new System.Drawing.Point(423, 263);
-            this.btnTorol.Name = "btnTorol";
-            this.btnTorol.Size = new System.Drawing.Size(75, 23);
-            this.btnTorol.TabIndex = 4;
-            this.btnTorol.Text = "Töröl";
-            this.btnTorol.UseVisualStyleBackColor = true;
-            this.btnTorol.Click += new System.EventHandler(this.btnTorol_Click);
-            // 
-            // btnModositV
-            // 
-            this.btnModositV.Location = new System.Drawing.Point(103, 72);
-            this.btnModositV.Name = "btnModositV";
-            this.btnModositV.Size = new System.Drawing.Size(75, 23);
-            this.btnModositV.TabIndex = 6;
-            this.btnModositV.Text = "Módosít";
-            this.btnModositV.UseVisualStyleBackColor = true;
-            this.btnModositV.Visible = false;
-            this.btnModositV.Click += new System.EventHandler(this.btnModositV_Click);
+            this.btnTorolL.Location = new System.Drawing.Point(476, 263);
+            this.btnTorolL.Name = "btnTorolL";
+            this.btnTorolL.Size = new System.Drawing.Size(122, 23);
+            this.btnTorolL.TabIndex = 4;
+            this.btnTorolL.Text = "LátványosságotTöröl";
+            this.btnTorolL.UseVisualStyleBackColor = true;
+            this.btnTorolL.Click += new System.EventHandler(this.btnTorol_Click);
             // 
             // btnModositL
             // 
@@ -256,12 +244,23 @@
             this.btnModositL.Visible = false;
             this.btnModositL.Click += new System.EventHandler(this.btnModositL_Click);
             // 
+            // btnTorolV
+            // 
+            this.btnTorolV.Location = new System.Drawing.Point(322, 262);
+            this.btnTorolV.Name = "btnTorolV";
+            this.btnTorolV.Size = new System.Drawing.Size(75, 23);
+            this.btnTorolV.TabIndex = 5;
+            this.btnTorolV.Text = "VárostTöröl";
+            this.btnTorolV.UseVisualStyleBackColor = true;
+            this.btnTorolV.Click += new System.EventHandler(this.btnTorolV_Click);
+            // 
             // LakossagNum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnTorol);
+            this.Controls.Add(this.btnTorolV);
+            this.Controls.Add(this.btnTorolL);
             this.Controls.Add(this.LatvanyossagList);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Citysubmit);
@@ -296,9 +295,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox LatvanyossagList;
-        private System.Windows.Forms.Button btnTorol;
-        private System.Windows.Forms.Button btnModositV;
+        private System.Windows.Forms.Button btnTorolL;
         private System.Windows.Forms.Button btnModositL;
+        private System.Windows.Forms.Button btnTorolV;
     }
 }
 

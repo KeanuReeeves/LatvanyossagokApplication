@@ -66,6 +66,7 @@ namespace LatvanyossagokApplication
         }
         private void adatbetoltes()
         {
+            LatvanyossagList.Items.Clear();
             string sql = @"SELECT `id`, `nev`, `lakossag` 
                            FROM `varosok`";
             var comm = conn.CreateCommand();
@@ -243,9 +244,9 @@ namespace LatvanyossagokApplication
 
         private void btnTorol_Click(object sender, EventArgs e)
         {
-            if (VarosokListBox.SelectedIndex>-1||LatvanyossagList.SelectedIndex>-1)
+           
+            if (LatvanyossagList.SelectedIndex>-1)
             {
-                varosTorles();
                 latvTorles();
             }
             else
@@ -257,17 +258,15 @@ namespace LatvanyossagokApplication
 
         private void VarosokListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Varosok v = (Varosok)VarosokListBox.SelectedItem;
-            btnModositV.Visible = true;
-            nevtb.Text = v.Nev;
-            numLakossag.Value = v.Lakossag;
+            if (VarosokListBox.SelectedIndex>-1)
+            {
+                Varosok v = (Varosok)VarosokListBox.SelectedItem;
+                nevtb.Text = v.Nev;
+                numLakossag.Value = v.Lakossag;
+            }
         }
 
         
-        private void btnModositV_Click(object sender, EventArgs e)
-        {
-            
-        }
 
         private void btnModositL_Click(object sender, EventArgs e)
         {
@@ -293,18 +292,28 @@ namespace LatvanyossagokApplication
 
             }
             sql = @"UPDATE latvanyossagok 
-                    SET nev=@nev,leiras=@leiras,ar=@ar,varos_id=@varosid
+                    SET id=@id, nev=@nev,leiras=@leiras,ar=@ar,varos_id=@varosid
                     WHERE id=@id";
             comm.CommandText = sql;
             comm.Parameters.AddWithValue("@id", id);
            
             comm.Parameters.AddWithValue("@leiras", leiras);
             comm.Parameters.AddWithValue("@ar", ar);
-            comm.Parameters.AddWithValue("@varosid", v.Id);
-            comm.ExecuteNonQuery();
-            LatvanyossagList.Items.RemoveAt(LatvanyossagList.SelectedIndex);
-            LatvanyossagList.Items.Add(new Latvanyossag(id, nev, leiras, ar, v.Id));
-            LatvanyossagList.SelectedIndex = -1;
+            
+            
+            if (VarosokListBox.SelectedIndex < 0)
+            {
+                MessageBox.Show("A várost mindenképp választani kell");
+            }
+            else 
+            {
+                comm.Parameters.AddWithValue("@varosid", v.Id);
+                comm.ExecuteNonQuery();
+                LatvanyossagList.Items.RemoveAt(LatvanyossagList.SelectedIndex);
+                LatvanyossagList.Items.Add(new Latvanyossag(id, nev, leiras, ar, v.Id));
+                LatvanyossagList.SelectedIndex = -1;
+            }
+           
             
         }
 
@@ -317,8 +326,20 @@ namespace LatvanyossagokApplication
                 LatNevText.Text = lv.Nev;
                 LeirasText.Text = lv.Leiras;
                 numAr.Value = lv.Ar;
-                VarosokListBox.SelectedIndex = 0;
             }
-        }  
+        }
+
+        private void btnTorolV_Click(object sender, EventArgs e)
+        {
+            if (VarosokListBox.SelectedIndex > -1)
+            {
+                varosTorles();
+
+            }
+            else
+            {
+                MessageBox.Show("Nincs kijelölve semmi");
+            }
+        }
     }
 }
