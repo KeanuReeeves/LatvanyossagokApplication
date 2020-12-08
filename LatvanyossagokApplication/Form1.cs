@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace LatvanyossagokApplication
 {
-    public partial class Form1 : Form
+    public partial class LakossagNum : Form
     {
         MySqlConnection conn;
-        public Form1()
+        public LakossagNum()
         {
             InitializeComponent();
             try
@@ -62,6 +62,33 @@ namespace LatvanyossagokApplication
             comm.CommandText = sql;
             comm.ExecuteNonQuery();
         }
-        
+
+        private void VarosSubmit_Click(object sender, EventArgs e)
+        {
+            string nev = nevtb.Text;
+            var comm = this.conn.CreateCommand();
+            string sql = @"SELECT count(*)
+                         FROM varosok
+                         WHERE @nev=varosok.nev";
+            comm.Parameters.AddWithValue("@nev",nev);
+            comm.CommandText = sql;
+            int count;
+            using (var reader = comm.ExecuteReader())
+            {
+                count = Convert.ToInt32(reader.ToString());
+            }
+            if (count > 0)
+            {
+
+            }
+            else
+            {
+                sql = @"Insert into varosok
+                        Values (@nev,@lakossag)";
+                comm.CommandText = sql;
+                comm.Parameters.AddWithValue("@lakossag", numLakossag);
+                VarosSubmit.Enabled = true;
+            }
+        }
     }
 }
